@@ -96,5 +96,8 @@ ENV/
 
 # project other files or dirs
 uplaods/*
+uploads/*.png
+uploads/*.jpg
+uploads/*.jpeg
 20170512-110547
 facenet/
