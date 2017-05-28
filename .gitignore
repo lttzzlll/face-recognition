@@ -101,3 +101,7 @@ uploads/*.jpg
 uploads/*.jpeg
 20170512-110547
 facenet/
+
+#backup files
+*.swp
+log.txt

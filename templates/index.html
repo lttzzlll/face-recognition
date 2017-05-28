@@ -6,14 +6,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- 上述3个meta标签*必须*放在最前面，任何其他内容都*必须*跟随其后！ -->
-    <title>人脸识别系统</title>
+    <title>welcome to this page</title>
 
     <!-- Bootstrap -->
     <link href="static/bootstrap-3.3.7-dist/css/bootstrap.min.css" rel="stylesheet">
-
-
-
-
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -21,12 +17,62 @@
       <script src="https://cdn.bootcss.com/html5shiv/3.7.3/html5shiv.min.js"></script>
       <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
+    <style type="text/css">
+        div#train {
+            float: left;
+            right: 49%;
+            margin-left: 10%;
+        }
+        div#test {
+            float: right;
+            left: 49%;
+            margin-right: 10%;
+        }
+        div.img-block {
+            margin: 2px;
+        }
+    </style>
 </head>
 
 <body>
+<div id='train'>
+    <h3>训练</h3>
+    <p>图片长宽比应该大于160 * 160; 格式为jpg或者png</p>
+    <form enctype="multipart/form-data" method="POST" action='/uploads'>
+            <div>
+                <label for='upload_file'>please input name or person id: </label>
+                <input type="text" name="name" id="name"/>
+            </div>
+            <div>
+                <input type='file' name='files[]' multiple="" id='upload_files' /> 
+            </div>
+            <div>
+                <input type="submit" value="upload" onclick="check_train();"/>
+            </div>
+    </form>
+    <div id='original-images'>
+        <h4>original images</h4>
+    <ul id='img_list'>
+        {% for img in img_list %}
+            <li><img src='{{ img }}'/></li>
+        {% endfor %}
+    </ul>
+    </div>
+    <div id='after-aligned-images'>
+        <h4>after align images</h4>
+    <ul id='img_align_list'>
+        {% for img in img_align_list %} 
+            <li><img src='{{ img }}'/></li>
+        {% endfor %}
+    </ul>
+    </div>
+</div>
 
+<div id='test'>
+    <h3>测试</h3>
+    <p>图片长宽比应该大于160 * 160; 格式为jpg或者png</p>
     <div id="upload">
-        <form enctype="multipart/form-data" method="POST" action='/upload'>
+        <form enctype="multipart/form-data" method="POST" action="/upload">
             <div>
                 <label for='upload_file'>请选择上传的文件: </label>
             </div>
@@ -39,9 +85,11 @@
         </form>
     </div>
 
-    <div id='img_block'>
-        <img id='img' src='{{img_path}}'/>
+    <div id='img_block' class='img-block'>
+        <img src='{{img_path}}'/>
     </div>
+</div>
+
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="static/bootstrap-3.3.7-dist/js/jquery.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
@@ -50,12 +98,54 @@
 
     <script type='text/javascript'>
         $(function(){
+            init();
             imgShow();
+            trainImgShow();
+            imgAlignShow();
+            trainImageShow();
         });
+        function init() {
+            // empty
+        }
         function imgShow() {
             var img = $("#img");
             if (img && img.src !== "") {
                 img.show();
+            }
+        }
+        function check_train() {
+            var name = $("#name");
+            if (name === null || name.length === 0) {
+                alert("input name is none");
+            }
+            var files = $("#files[]");
+            if (files === null || files.length === 0) {
+                alert("please select multiply images to upload");
+            }
+            return false;
+        }
+
+        function trainImgShow() {
+            var img = $("#img_list");
+            if (img === null || img.length === 0) {
+                img.hide();
+            }
+        }
+        function imgAlignShow() {
+            var img = $("#img_align_list");
+            if (img === null || img.length === 0) {
+                img.hide();
+            }
+        }
+
+        function trainImageShow() {
+            var originalImages = $("#original-images").find("img");
+            var afterAlignedImages = $("#after-aligned-images").find("img");
+            if (originalImages === null || originalImages.length === 0) {
+                $("#original-images").hide();
+            }
+            if (afterAlignedImages === null || afterAlignedImages.length === 0) {
+                $("#after-aligned-images").hide();
             }
         }
     </script>
