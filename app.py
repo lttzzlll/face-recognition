@@ -7,7 +7,9 @@ from flask import send_from_directory
 from werkzeug import secure_filename
 
 import util
+import net
 
+import shutil
 import os
 
 app = Flask(__name__)
@@ -19,6 +21,7 @@ TRAIN_ALIGN_DIR = UPLOAD_FOLDER + '/train_align'
 TEST_DIR = UPLOAD_FOLDER + '/test'
 TEST_ALIGN_DIR = UPLOAD_FOLDER + '/test_align'
 TEMP_DIR = '/tmp'
+CUR_PATH = os.getcwd()
 
 # set the max upload file size 1MB
 app.config['MAX_CONTENT_LENGTH'] = MAX_CONTENT_LENGTH
@@ -28,6 +31,7 @@ app.config['UPLOAD_TRAIN_ALIGN_FOLDER'] = TRAIN_ALIGN_DIR
 app.config['UPLOAD_TEST_FOLDER'] = TEST_DIR
 app.config['UPLOAD_TEST_ALIGN_FOLDER'] = TEST_ALIGN_DIR
 app.config['TMP_DIR'] = TEMP_DIR
+app.config['CUR_PATH'] = CUR_PATH
 
 @app.route('/')
 def index():
@@ -63,8 +67,9 @@ def upload_file():
         if file and util.allowed_file(file.filename):
             filename = secure_filename(file.filename)
             dirpath = os.path.join(app.config['UPLOAD_TEST_FOLDER'], username)
-            if not os.path.exists(dirpath):
-                os.mkdir(dirpath)
+            if os.path.exists(dirpath):
+                shutil.rmtree(dirpath)
+            os.mkdir(dirpath)
 
             filepath = os.path.join(dirpath, filename)
             file.save(filepath)
@@ -83,9 +88,33 @@ def upload_file():
 
             os.system(cmd)
 
-            return render_template('index.html', img_path=filepath, img_align_path='uploads/test_align/%s/%s' %(username, filename.split('.')[0] + '.png'))
+            res = net.classify(False,
+                            'CLASSIFY',
+                            app.config['UPLOAD_TEST_ALIGN_FOLDER'],
+                            20,
+                            10,
+                            '20170512-110547/20170512-110547.pb',
+                            'classifiers/%s_classifier.pkl' % username,
+                            1000,
+                        160)
+
+            shutil.rmtree(os.path.join(dirpath))
+            shutil.rmtree(os.path.join(app.config['UPLOAD_TEST_ALIGN_FOLDER'], username))
+
+            if res[0][1] == username:
+                return render_template('index.html', 
+                                        img_path=filepath, 
+                                        img_align_path='uploads/test_align/%s/%s' %(username, filename.split('.')[0] + '.png'),
+                                        username=username,
+                                        prob=res[0][2])
+            else:
+                return render_template('index.html', 
+                                        img_path=filepath, 
+                                        img_align_path='uploads/test_align/%s/%s' %(username, filename.split('.')[0] + '.png'),
+                                        err_msg='not the username picture')
         else:
             return render_template('index.html')
+
 
 @app.route('/uploads', methods=['POST'])
 def upload_files():

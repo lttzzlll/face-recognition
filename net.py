@@ -30,11 +30,35 @@ class FaceRec(object):
                 batch_size,
                 image_size)
 
-        print(res)
+        return res
+
+
+def classify(use_split_dataset,
+            mode,
+            data_dir, 
+            min_nrof_images_per_class, 
+            nrof_train_images_per_class,
+            model,
+            classifier_filename,
+            batch_size,
+            image_size):
+    
+    facerec = FaceRec()
+    
+    res = facerec.classify(use_split_dataset,
+                    mode,
+                    data_dir, 
+                    min_nrof_images_per_class, 
+                    nrof_train_images_per_class,
+                    model,
+                    classifier_filename,
+                    batch_size,
+                    image_size)
+
+    return res
 
 def main():
-    facerec = FaceRec()
-    facerec.classify(False,
+    res = classify(False,
                     'CLASSIFY',
                     'tmp/temp',
                     20,
@@ -44,5 +68,7 @@ def main():
                     1000,
                     160)
 
+    print(res)
+    
 if __name__ == '__main__':
     main()
