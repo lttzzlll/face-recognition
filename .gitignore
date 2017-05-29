@@ -105,3 +105,5 @@ facenet/
 #backup files
 *.swp
 log.txt
+#backup dir
+backup

@@ -3,7 +3,7 @@ import os
 import time
 import uuid
 
-ALLOWED_EXTENSIONS = set(['png', 'jpg', 'JPG', 'PNG'])
+ALLOWED_EXTENSIONS = set(['png', 'jpg', 'jpeg', 'JPG', 'JPEG', 'PNG'])
 LOG_DIR = os.getcwd() + '/log.txt'
 
 def get_cur_time():

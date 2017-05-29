@@ -74,9 +74,11 @@
     <div id="upload">
         <form enctype="multipart/form-data" method="POST" action="/upload">
             <div>
-                <label for='upload_file'>请选择上传的文件: </label>
+                <label for='username'>please input the user name or id: </label>
+                <input type="text" name="username" id="username"/>
             </div>
             <div>
+                <label for='upload_file'>请选择上传的文件: </label>
                 <input type='file' name='upload_file' id='upload_file' /> 
             </div>
             <div>
@@ -86,8 +88,14 @@
     </div>
 
     <div id='img_block' class='img-block'>
+        <div>
         <img src='{{img_path}}'/>
+        </div>
+        <div>
+        <img src='{{img_align_path}}'/>
+        </div>
     </div>
+
 </div>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
