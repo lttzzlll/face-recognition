@@ -69,10 +69,14 @@ def upload_file():
             dirpath = os.path.join(app.config['UPLOAD_TEST_FOLDER'], username)
             align_dirpath = os.path.join(app.config['UPLOAD_TEST_ALIGN_FOLDER'], username)
             align_filepath = os.path.join(align_dirpath, filename)
-            if os.path.exists(dirpath):
-                shutil.rmtree(dirpath)
-            if os.path.exists(align_dirpath):
-                shutil.rmtree(align_dirpath)
+            # if os.path.exists(dirpath):
+            #     shutil.rmtree(dirpath)
+            # if os.path.exists(align_dirpath):
+            #     shutil.rmtree(align_dirpath)
+            shutil.rmtree(app.config['UPLOAD_TEST_FOLDER'])
+            shutil.rmtree(app.config['UPLOAD_TEST_ALIGN_FOLDER'])
+            os.mkdir(app.config['UPLOAD_TEST_FOLDER'])
+            os.mkdir(app.config['UPLOAD_TEST_ALIGN_FOLDER'])
             os.mkdir(dirpath)
 
             filepath = os.path.join(dirpath, filename)
@@ -105,20 +109,22 @@ def upload_file():
             
             if res[0][1] == username:
                 # generate a random filename 
-                des_path = os.path.join(os.path.join(app.config['UPLOAD_FOLDER'], username), util.get_uuid() + '.png')
-                align_des_path = os.path.join(os.path.join(app.config['UPLOAD_TRAIN_ALIGN_FOLDER'], username), util.get_uuid() + '.png')
+                pic_name = util.get_uuid() + '.png'
+                pic_align_name = util.get_uuid() + '.png'
+                des_path = os.path.join(os.path.join(app.config['UPLOAD_FOLDER'], username), pic_name)
+                align_des_path = os.path.join(os.path.join(app.config['UPLOAD_TRAIN_ALIGN_FOLDER'], username), pic_align_name)
                 shutil.move(filepath, des_path)            
                 shutil.move(align_filepath.split('.')[0] + '.png', align_des_path)
 
                 return render_template('index.html', 
-                                        img_path=filepath, 
-                                        img_align_path='uploads/test_align/%s/%s' %(username, filename.split('.')[0] + '.png'),
+                                        img_path='uploads/train/%s/%s' % (username, pic_name), 
+                                        img_align_path=align_des_path,
                                         username=username,
                                         prob=res[0][2])
             else:
                 return render_template('index.html', 
                                         img_path=filepath, 
-                                        img_align_path='uploads/test_align/%s/%s' %(username, filename.split('.')[0] + '.png'),
+                                        img_align_path='uploads/test_align/%s/%s' %(username, filename),
                                         err_msg='not the username picture')
         else:
             return render_template('index.html')
