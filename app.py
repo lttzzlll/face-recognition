@@ -107,7 +107,7 @@ def upload_file():
                         160)
 
             
-            if res[0][1] == username:
+            if res[0][1] == username && res[0][2] >= 0.90:
                 # generate a random filename 
                 pic_name = util.get_uuid() + '.png'
                 pic_align_name = util.get_uuid() + '.png'
@@ -117,14 +117,14 @@ def upload_file():
                 shutil.move(align_filepath.split('.')[0] + '.png', align_des_path)
 
                 return render_template('index.html', 
-                                        img_path='uploads/train/%s/%s' % (username, pic_name), 
+                                        # img_path='uploads/train/%s/%s' % (username, pic_name), 
                                         img_align_path=align_des_path,
                                         username=username,
                                         prob=res[0][2])
             else:
                 return render_template('index.html', 
                                         img_path=filepath, 
-                                        img_align_path='uploads/test_align/%s/%s' %(username, filename),
+                                        # img_align_path='uploads/test_align/%s/%s' %(username, filename),
                                         err_msg='not the username picture')
         else:
             return render_template('index.html')
@@ -172,7 +172,7 @@ def upload_files():
         img_align_path = os.path.join(app.config['UPLOAD_TRAIN_ALIGN_FOLDER'], name) 
         img_align_list = [os.path.join(os.path.join(img_align_path, f.filename.split('.')[0] + '.png')) for f in uploaded_files]
         
-        return render_template('index.html', img_list=img_list, img_align_list=img_align_list)
+        return render_template('index.html', img_align_list=img_align_list)
 
 @app.route('/*')
 def notfound404():

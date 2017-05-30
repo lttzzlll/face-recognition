@@ -44,7 +44,7 @@
                 <input type="text" name="name" id="name"/>
             </div>
             <div>
-                <input type='file' name='files[]' multiple="" id='upload_files' /> 
+                <input type='file' name='files[]' multiple="" id='upload_files' accept="image/jpeg; image/png" > 
             </div>
             <div>
                 <input type="submit" value="upload" onclick="check_train();"/>
@@ -79,7 +79,7 @@
             </div>
             <div>
                 <label for='upload_file'>请选择上传的文件: </label>
-                <input type='file' name='upload_file' id='upload_file' /> 
+                <input type='file' name='upload_file' id='upload_file' accept="image/jpeg; image/png" onchange="readURL(this);"/> 
             </div>
             <div>
                 <input type="submit" value="上传"/>
@@ -89,10 +89,10 @@
 
     <div id='img_block' class='img-block'>
         <div>
-        <img src='{{img_path}}'/>
+        <img src='{{img_path}}' id='org_img'/>
         </div>
         <div>
-        <img src='{{img_align_path}}'/>
+        <img src='{{img_align_path}}' id='alg_img'/>
         </div>
 
         <p id='prob'>{{ username }}: {{ prob }}</p>
@@ -113,9 +113,16 @@
             trainImgShow();
             imgAlignShow();
             trainImageShow();
+            bindReadMultiFiles();
+            bindImgTroggle();
         });
         function init() {
             // empty
+        }
+        function bindImgTroggle() {
+            if ($("#org_img").attr("src") !== "") {
+                $("#alg_img").hide();
+            }
         }
         function imgShow() {
             var img = $("#img");
@@ -157,6 +164,38 @@
             if (afterAlignedImages === null || afterAlignedImages.length === 0) {
                 $("#after-aligned-images").hide();
             }
+        }
+
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+        
+                reader.onload = function (e) {
+                    $("#org_img").attr('src', e.target.result);
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        function bindReadMultiFiles() {
+            $("#upload_files").change(function(e) {
+                $.each(e.originalEvent.srcElement.files, function(i, file) {
+                    var img = document.createElement("img");
+                    var reader = new FileReader();
+                    reader.onloadend = function() {
+                        img.src = reader.result;
+                    }
+                    reader.readAsDataURL(file);
+                    var li = document.createElement("li");
+                    li.append(img);
+                    $("#img_list").append(li);
+                });
+
+                if ($("#img_list").length > 0) {
+                    $("#original-images").show();
+                    $("#after-aligned-images").hide();
+                }
+            });
         }
     </script>
 </body>
