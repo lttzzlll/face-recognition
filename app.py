@@ -144,14 +144,24 @@ def upload_files():
             cp -rf %s/%s  uploads/train_align &&
             rm -rf %s &&
             rm -rf %s &&
-            cp -rf uploads/train_align/%s tmp/%s &&
-            python facenet/src/classifier.py TRAIN tmp 20170512-110547/20170512-110547.pb  classifiers/%s_classifier.pkl --batch_size 1000 &&
-            rm -rf tmp/%s
-           ''' % (src, name, src, src, des, des, name, src, des, name, name, name, name)
+            cp -rf uploads/train_align/%s tmp
+           ''' % (src, name, src, src, des, des, name, src, des, name)
         # print(cmd)
         util.log(cmd)
         os.system(cmd)
         
+        res = net.train(False,
+                        'TRAIN',
+                        'tmp',
+                        20,
+                        10,
+                        '20170512-110547/20170512-110547.pb',
+                        'classifiers/%s_classifier.pkl' % name,
+                        1000,
+                        160)
+
+        shutil.rmtree(os.path.join('tmp', name))
+
         img_list = [os.path.join(path, f.filename) for f in uploaded_files]
         img_align_path = os.path.join(app.config['UPLOAD_TRAIN_ALIGN_FOLDER'], name) 
         img_align_list = [os.path.join(os.path.join(img_align_path, f.filename.split('.')[0] + '.png')) for f in uploaded_files]

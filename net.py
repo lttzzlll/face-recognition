@@ -32,6 +32,26 @@ class FaceRec(object):
 
         return res
 
+    def train(self,
+                use_split_dataset,
+                mode,
+                data_dir, 
+                min_nrof_images_per_class, 
+                nrof_train_images_per_class,
+                model,
+                classifier_filename,
+                batch_size,
+                image_size):
+        
+        classifier.train(use_split_dataset,
+                mode,
+                data_dir, 
+                min_nrof_images_per_class, 
+                nrof_train_images_per_class,
+                model,
+                classifier_filename,
+                batch_size,
+                image_size)
 
 def classify(use_split_dataset,
             mode,
@@ -57,18 +77,53 @@ def classify(use_split_dataset,
 
     return res
 
-def main():
-    res = classify(False,
-                    'CLASSIFY',
-                    'tmp/temp',
-                    20,
-                    10,
-                    '20170512-110547/20170512-110547.pb',
-                    'classifiers/jay_classifier.pkl',
-                    1000,
-                    160)
-
-    print(res)
+def train(use_split_dataset,
+            mode,
+            data_dir, 
+            min_nrof_images_per_class, 
+            nrof_train_images_per_class,
+            model,
+            classifier_filename,
+            batch_size,
+            image_size):
     
+    facerec = FaceRec()    
+    
+    facerec.train(use_split_dataset,
+                    mode,
+                    data_dir, 
+                    min_nrof_images_per_class, 
+                    nrof_train_images_per_class,
+                    model,
+                    classifier_filename,
+                    batch_size,
+                    image_size)
+
+
+
+def main():
+    # res = classify(False,
+    #                 'CLASSIFY',
+    #                 'tmp/temp',
+    #                 20,
+    #                 10,
+    #                 '20170512-110547/20170512-110547.pb',
+    #                 'classifiers/jay_classifier.pkl',
+    #                 1000,
+    #                 160)
+
+    # print(res)
+
+    train(False,
+            'TRAIN',
+            'tmp',
+            20,
+            10,
+            '20170512-110547/20170512-110547.pb',
+            'classifiers/luo_classifier.pkl',
+            1000,
+            160)
+
+
 if __name__ == '__main__':
     main()
