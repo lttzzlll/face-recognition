@@ -67,8 +67,12 @@ def upload_file():
         if file and util.allowed_file(file.filename):
             filename = secure_filename(file.filename)
             dirpath = os.path.join(app.config['UPLOAD_TEST_FOLDER'], username)
+            align_dirpath = os.path.join(app.config['UPLOAD_TEST_ALIGN_FOLDER'], username)
+            align_filepath = os.path.join(align_dirpath, filename)
             if os.path.exists(dirpath):
                 shutil.rmtree(dirpath)
+            if os.path.exists(align_dirpath):
+                shutil.rmtree(align_dirpath)
             os.mkdir(dirpath)
 
             filepath = os.path.join(dirpath, filename)
@@ -98,10 +102,14 @@ def upload_file():
                             1000,
                         160)
 
-            shutil.rmtree(os.path.join(dirpath))
-            shutil.rmtree(os.path.join(app.config['UPLOAD_TEST_ALIGN_FOLDER'], username))
-
+            
             if res[0][1] == username:
+                # generate a random filename 
+                des_path = os.path.join(os.path.join(app.config['UPLOAD_FOLDER'], username), util.get_uuid() + '.png')
+                align_des_path = os.path.join(os.path.join(app.config['UPLOAD_TRAIN_ALIGN_FOLDER'], username), util.get_uuid() + '.png')
+                shutil.move(filepath, des_path)            
+                shutil.move(align_filepath.split('.')[0] + '.png', align_des_path)
+
                 return render_template('index.html', 
                                         img_path=filepath, 
                                         img_align_path='uploads/test_align/%s/%s' %(username, filename.split('.')[0] + '.png'),
