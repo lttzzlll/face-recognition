@@ -2,7 +2,6 @@ led / optimized / DLL files
 __pycache__/
 *.py[cod]
 *$py.class
-*.pyc
 
 # C extensions
 *.so
@@ -93,17 +92,7 @@ ENV/
 
 # PyCharm project setting
 .idea
-
-# project other files or dirs
-uplaods/*
-uploads/*.png
-uploads/*.jpg
-uploads/*.jpeg
-20170512-110547
-#facenet/
-
-#backup files
-*.swp
-log.txt
-#backup dir
-backup
+# flw
+flw
+# python backup files
+*.pyc
