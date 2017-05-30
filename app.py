@@ -5,6 +5,7 @@ from flask import render_template
 from flask import request
 from flask import send_from_directory
 from werkzeug import secure_filename
+from flask import jsonify
 
 import util
 import net
@@ -55,6 +56,13 @@ def uploaded_test_file(filename):
 def uploaded_test_align_file(filename):
     return send_from_directory(app.config['UPLOAD_TEST_ALIGN_FOLDER'], filename)
 
+@app.route('/validateusername', methods=['POST'])
+def validate_username():
+    if request.method == 'POST':
+        name = request.form["name"]
+        if name is not None and len(name) > 0 and name in util.get_all_usernames():
+            return jsonify(res=True)
+    return jsonify(res=False)
 
 @app.route('/upload', methods=['POST'])
 def upload_file():
@@ -107,7 +115,7 @@ def upload_file():
                         160)
 
             
-            if res[0][1] == username && res[0][2] >= 0.90:
+            if res[0][1] == username and res[0][2] >= 0.90:
                 # generate a random filename 
                 pic_name = util.get_uuid() + '.png'
                 pic_align_name = util.get_uuid() + '.png'

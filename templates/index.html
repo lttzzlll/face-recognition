@@ -75,7 +75,7 @@
         <form enctype="multipart/form-data" method="POST" action="/upload">
             <div>
                 <label for='username'>please input the user name or id: </label>
-                <input type="text" name="username" id="username"/>
+                <input type="text" name="username" id="username" onblur="validateUserName(this);"/>
             </div>
             <div>
                 <label for='upload_file'>请选择上传的文件: </label>
@@ -194,6 +194,23 @@
                 if ($("#img_list").length > 0) {
                     $("#original-images").show();
                     $("#after-aligned-images").hide();
+                }
+            });
+        }
+
+        function validateUserName(input) {
+            $name = $(input).val();
+            $.ajax({
+                url: "validateusername",
+                type: "post",
+                dataType: "json",
+                data: {
+                    name: $name
+                },
+                success: function(redata) {
+                    if (!redata.res) {
+                        alert("there is not the username: " + $name);
+                    }
                 }
             });
         }
