@@ -77,10 +77,7 @@ def upload_file():
             dirpath = os.path.join(app.config['UPLOAD_TEST_FOLDER'], username)
             align_dirpath = os.path.join(app.config['UPLOAD_TEST_ALIGN_FOLDER'], username)
             align_filepath = os.path.join(align_dirpath, filename)
-            # if os.path.exists(dirpath):
-            #     shutil.rmtree(dirpath)
-            # if os.path.exists(align_dirpath):
-            #     shutil.rmtree(align_dirpath)
+            
             shutil.rmtree(app.config['UPLOAD_TEST_FOLDER'])
             shutil.rmtree(app.config['UPLOAD_TEST_ALIGN_FOLDER'])
             os.mkdir(app.config['UPLOAD_TEST_FOLDER'])
@@ -146,18 +143,6 @@ def upload_files():
         
         des = 'tmp/%s' % util.get_uuid()
         src = 'tmp/%s' % util.get_uuid()
-        # cmd = '''export PYTHONPATH=facenet/src &&
-        #     mkdir %s &&
-        #     cp -rf uploads/train/%s %s && 
-        #     python facenet/src/align/align_dataset_mtcnn.py %s %s --image_size 160 --margin 32 --random_order --gpu_memory_fraction 0.25 && 
-        #     cp -rf %s/%s  uploads/train_align &&
-        #     rm -rf %s &&
-        #     rm -rf %s &&
-        #     cp -rf uploads/train_align/%s tmp
-        #    ''' % (src, name, src, src, des, des, name, src, des, name)
-        # print(cmd)
-        # util.log(cmd)
-        # os.system(cmd)
 
         dirpath = os.path.join(app.config['UPLOAD_FOLDER'], name)
         shutil.copytree(dirpath, os.path.join(src, name))
