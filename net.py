@@ -1,12 +1,10 @@
 # -*- coding: utf-8 -*-
 
 import facenet.src.classifier as classifier
+import facenet.src.align.align_dataset_mtcnn as align_dataset_mtcnn
 
 class FaceRec(object):
     def __init__(self):
-        pass
-
-    def train(self):
         pass
 
     def classify(self, 
@@ -52,6 +50,20 @@ class FaceRec(object):
                 classifier_filename,
                 batch_size,
                 image_size)
+
+    def align_dataset(self, 
+            output_dir,
+            input_dir,
+            gpu_memory_fraction,
+            random_order,
+            margin,
+            image_size):
+        align_dataset_mtcnn.align_dataset(output_dir,
+                                    input_dir,
+                                    gpu_memory_fraction,
+                                    random_order,
+                                    margin,
+                                    image_size)
 
 def classify(use_split_dataset,
             mode,
@@ -99,9 +111,23 @@ def train(use_split_dataset,
                     batch_size,
                     image_size)
 
-
+def align_dataset(output_dir,
+            input_dir,
+            gpu_memory_fraction,
+            random_order,
+            margin,
+            image_size):
+    facerec = FaceRec()
+    facerec.align_dataset(output_dir, 
+                    input_dir, 
+                    gpu_memory_fraction, 
+                    random_order,
+                    margin, 
+                    image_size)
 
 def main():
+    
+    align_dataset('rec/train_align', 'rec/train', 0.25, True, 32, 160)
     # res = classify(False,
     #                 'CLASSIFY',
     #                 'tmp/temp',
@@ -114,15 +140,15 @@ def main():
 
     # print(res)
 
-    train(False,
-            'TRAIN',
-            'tmp',
-            20,
-            10,
-            '20170512-110547/20170512-110547.pb',
-            'classifiers/luo_classifier.pkl',
-            1000,
-            160)
+    # train(False,
+    #         'TRAIN',
+    #         'tmp',
+    #         20,
+    #         10,
+    #         '20170512-110547/20170512-110547.pb',
+    #         'classifiers/luo_classifier.pkl',
+    #         1000,
+    #         160)
 
 
 if __name__ == '__main__':
