@@ -18,6 +18,16 @@
       <script src="https://cdn.bootcss.com/respond.js/1.4.2/respond.min.js"></script>
     <![endif]-->
     <style type="text/css">
+        body {
+            font-size: 14px;
+            font-family: sans-serif;
+            margin: 20px;
+            padding: 4px;
+        }
+        body div {
+            margin: 2px;
+            padding: 4px;
+        }
         div#train {
             float: left;
             right: 49%;
@@ -52,19 +62,18 @@
     </form>
     <div id='original-images'>
         <h4>original images</h4>
-    <ul id='img_list'>
+    <ol id='img_list'>
         {% for img in img_list %}
-            <li><img src='{{ img }}'/></li>
         {% endfor %}
-    </ul>
+    </ol>
     </div>
     <div id='after-aligned-images'>
         <h4>after align images</h4>
-    <ul id='img_align_list'>
+    <ol id='img_align_list'>
         {% for img in img_align_list %} 
             <li><img src='{{ img }}'/></li>
         {% endfor %}
-    </ul>
+    </ol>
     </div>
 </div>
 
@@ -118,6 +127,14 @@
         });
         function init() {
             // empty
+            initProb();
+        }
+        function initProb() {
+            if ($("#prob").text().trim() === ":") {
+                $("#prob").hide();
+            } else {
+                $("#prob").show();
+            }
         }
         function bindImgTroggle() {
             if ($("#org_img").attr("src") !== "") {
