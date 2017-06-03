@@ -34,7 +34,7 @@ app.config['UPLOAD_TEST_ALIGN_FOLDER'] = TEST_ALIGN_DIR
 app.config['TMP_DIR'] = TEMP_DIR
 app.config['CUR_PATH'] = CUR_PATH
 
-@app.route('/')
+@app.route('/', methods=['GET'])
 def index():
     return render_template('index.html')
 
@@ -125,7 +125,7 @@ def upload_file():
                 return render_template('index.html', 
                                         img_path=filepath, 
                                         # img_align_path='uploads/test_align/%s/%s' %(username, filename),
-                                        err_msg='not the username picture')
+                                        err_msg='not the {} picture'.format(username))
         else:
             return render_template('index.html')
 

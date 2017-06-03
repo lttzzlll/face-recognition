@@ -84,7 +84,7 @@
         <form enctype="multipart/form-data" method="POST" action="/upload">
             <div>
                 <label for='username'>please input the user name or id: </label>
-                <input type="text" name="username" id="username" onblur="validateUserName(this);"/>
+                <input type="text" name="username" value="{{ username }}" id="username" onblur="validateUserName(this);"/>
             </div>
             <div>
                 <label for='upload_file'>请选择上传的文件: </label>
