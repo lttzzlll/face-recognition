@@ -168,7 +168,7 @@ def upload_files():
         img_align_path = os.path.join(app.config['UPLOAD_TRAIN_ALIGN_FOLDER'], name) 
         img_align_list = [os.path.join(os.path.join(img_align_path, f.filename.split('.')[0] + '.png')) for f in uploaded_files]
         
-        return render_template('index.html', img_align_list=img_align_list)
+        return render_template('index.html', img_align_list=img_align_list, name=name)
 
 @app.route('/*')
 def notfound404():

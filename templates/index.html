@@ -24,20 +24,28 @@
             margin: 20px;
             padding: 4px;
         }
+        
         body div {
             margin: 2px;
             padding: 4px;
         }
+        
+        body li {
+            list-style: none;
+        }
+        
         div#train {
             float: left;
             right: 49%;
             margin-left: 10%;
         }
+        
         div#test {
             float: right;
             left: 49%;
             margin-right: 10%;
         }
+        
         div.img-block {
             margin: 2px;
         }
@@ -45,69 +53,68 @@
 </head>
 
 <body>
-<div id='train'>
-    <h3>训练</h3>
-    <p>图片长宽比应该大于160 * 160; 格式为jpg或者png</p>
-    <form enctype="multipart/form-data" method="POST" action='/uploads'>
+    <div id='train'>
+        <h3>训练</h3>
+        <p>图片长宽比应该大于160 * 160; 格式为jpg或者png</p>
+        <form enctype="multipart/form-data" method="POST" action='/uploads'>
             <div>
                 <label for='upload_file'>please input name or person id: </label>
-                <input type="text" name="name" id="name"/>
+                <input type="text" name="name" id="name" value="{{ name }}" />
             </div>
             <div>
-                <input type='file' name='files[]' multiple="" id='upload_files' accept="image/jpeg; image/png" > 
+                <input type='file' name='files[]' multiple="" id='upload_files' accept="image/jpeg; image/png">
             </div>
             <div>
-                <input type="submit" value="upload" onclick="check_train();"/>
-            </div>
-    </form>
-    <div id='original-images'>
-        <h4>original images</h4>
-    <ol id='img_list'>
-        {% for img in img_list %}
-        {% endfor %}
-    </ol>
-    </div>
-    <div id='after-aligned-images'>
-        <h4>after align images</h4>
-    <ol id='img_align_list'>
-        {% for img in img_align_list %} 
-            <li><img src='{{ img }}'/></li>
-        {% endfor %}
-    </ol>
-    </div>
-</div>
-
-<div id='test'>
-    <h3>测试</h3>
-    <p>图片长宽比应该大于160 * 160; 格式为jpg或者png</p>
-    <div id="upload">
-        <form enctype="multipart/form-data" method="POST" action="/upload">
-            <div>
-                <label for='username'>please input the user name or id: </label>
-                <input type="text" name="username" value="{{ username }}" id="username" onblur="validateUserName(this);"/>
-            </div>
-            <div>
-                <label for='upload_file'>请选择上传的文件: </label>
-                <input type='file' name='upload_file' id='upload_file' accept="image/jpeg; image/png" onchange="readURL(this);"/> 
-            </div>
-            <div>
-                <input type="submit" value="上传"/>
+                <input type="submit" value="upload" onclick="check_train();" />
             </div>
         </form>
+        <div id='original-images'>
+            <h4>original images</h4>
+            <ul id='img_list'>
+                {% for img in img_list %} {% endfor %}
+            </ul>
+        </div>
+        <div id='after-aligned-images'>
+            <h4>after align images</h4>
+            <ul id='img_align_list'>
+                {% for img in img_align_list %}
+                <li><img src='{{ img }}' /></li>
+                {% endfor %}
+            </ul>
+        </div>
     </div>
 
-    <div id='img_block' class='img-block'>
-        <div>
-        <img src='{{img_path}}' id='org_img'/>
-        </div>
-        <div>
-        <img src='{{img_align_path}}' id='alg_img'/>
+    <div id='test'>
+        <h3>测试</h3>
+        <p>图片长宽比应该大于160 * 160; 格式为jpg或者png</p>
+        <div id="upload">
+            <form enctype="multipart/form-data" method="POST" action="/upload">
+                <div>
+                    <label for='username'>please input the user name or id: </label>
+                    <input type="text" name="username" value="{{ username }}" id="username" onblur="validateUserName(this);" />
+                </div>
+                <div>
+                    <label for='upload_file'>请选择上传的文件: </label>
+                    <input type='file' name='upload_file' id='upload_file' accept="image/jpeg; image/png" onchange="readURL(this);" />
+                </div>
+                <div>
+                    <input type="submit" value="上传" />
+                </div>
+            </form>
         </div>
 
-        <p id='prob'>{{ username }}: {{ prob }}</p>
-        <p id='err_msg'>{{ err_msg }}</p>
+        <div id='img_block' class='img-block'>
+            <div>
+                <img src='{{img_path}}' id='org_img' />
+            </div>
+            <div>
+                <img src='{{img_align_path}}' id='alg_img' />
+            </div>
+
+            <p id='prob'>{{ username }}: {{ prob }}</p>
+            <p id='err_msg'>{{ err_msg }}</p>
+        </div>
     </div>
-</div>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="static/bootstrap-3.3.7-dist/js/jquery.min.js"></script>
@@ -116,7 +123,7 @@
 
 
     <script type='text/javascript'>
-        $(function(){
+        $(function() {
             init();
             imgShow();
             trainImgShow();
@@ -124,114 +131,120 @@
             trainImageShow();
             bindReadMultiFiles();
             bindImgTroggle();
-        });
-        function init() {
-            // empty
-            initProb();
-        }
-        function initProb() {
-            if ($("#prob").text().trim() === ":") {
-                $("#prob").hide();
-            } else {
-                $("#prob").show();
-            }
-        }
-        function bindImgTroggle() {
-            if ($("#org_img").attr("src") !== "") {
-                $("#alg_img").hide();
-            }
-        }
-        function imgShow() {
-            var img = $("#img");
-            if (img && img.src !== "") {
-                img.show();
-            }
-        }
-        function check_train() {
-            var name = $("#name");
-            if (name === null || name.length === 0) {
-                alert("input name is none");
-            }
-            var files = $("#files[]");
-            if (files === null || files.length === 0) {
-                alert("please select multiply images to upload");
-            }
-            return false;
-        }
 
-        function trainImgShow() {
-            var img = $("#img_list");
-            if (img === null || img.length === 0) {
-                img.hide();
+            function init() {
+                // empty
+                initProb();
             }
-        }
-        function imgAlignShow() {
-            var img = $("#img_align_list");
-            if (img === null || img.length === 0) {
-                img.hide();
-            }
-        }
 
-        function trainImageShow() {
-            var originalImages = $("#original-images").find("img");
-            var afterAlignedImages = $("#after-aligned-images").find("img");
-            if (originalImages === null || originalImages.length === 0) {
-                $("#original-images").hide();
+            function initProb() {
+                if ($("#prob").text().trim() === ":") {
+                    $("#prob").hide();
+                } else {
+                    $("#prob").show();
+                }
             }
-            if (afterAlignedImages === null || afterAlignedImages.length === 0) {
-                $("#after-aligned-images").hide();
+
+            function bindImgTroggle() {
+                if ($("#org_img").attr("src") !== "") {
+                    $("#alg_img").hide();
+                }
             }
-        }
 
-        function readURL(input) {
-            if (input.files && input.files[0]) {
-                var reader = new FileReader();
-        
-                reader.onload = function (e) {
-                    $("#org_img").attr('src', e.target.result);
-                };
-                reader.readAsDataURL(input.files[0]);
-                $("#alg_img").attr("src", "").hide();   
+            function imgShow() {
+                var img = $("#img");
+                if (img && img.src !== "") {
+                    img.show();
+                }
             }
-        }
 
-        function bindReadMultiFiles() {
-            $("#upload_files").change(function(e) {
-                $.each(e.originalEvent.srcElement.files, function(i, file) {
-                    var img = document.createElement("img");
-                    var reader = new FileReader();
-                    reader.onloadend = function() {
-                        img.src = reader.result;
-                    }
-                    reader.readAsDataURL(file);
-                    var li = document.createElement("li");
-                    li.append(img);
-                    $("#img_list").append(li);
-                });
+            function check_train() {
+                var name = $("#name");
+                if (name === null || name.length === 0) {
+                    alert("input name is none");
+                }
+                var files = $("#files[]");
+                if (files === null || files.length === 0) {
+                    alert("please select multiply images to upload");
+                }
+                return false;
+            }
 
-                if ($("#img_list").length > 0) {
-                    $("#original-images").show();
+            function trainImgShow() {
+                var img = $("#img_list");
+                if (img === null || img.length === 0) {
+                    img.hide();
+                }
+            }
+
+            function imgAlignShow() {
+                var img = $("#img_align_list");
+                if (img === null || img.length === 0) {
+                    img.hide();
+                }
+            }
+
+            function trainImageShow() {
+                var originalImages = $("#original-images").find("img");
+                var afterAlignedImages = $("#after-aligned-images").find("img");
+                if (originalImages === null || originalImages.length === 0) {
+                    $("#original-images").hide();
+                }
+                if (afterAlignedImages === null || afterAlignedImages.length === 0) {
                     $("#after-aligned-images").hide();
                 }
-            });
-        }
+            }
 
-        function validateUserName(input) {
-            $name = $(input).val();
-            $.ajax({
-                url: "validateusername",
-                type: "post",
-                dataType: "json",
-                data: {
-                    name: $name
-                },
-                success: function(redata) {
-                    if (!redata.res) {
-                        alert("there is not the username: " + $name);
-                    }
+            function readURL(input) {
+                if (input.files && input.files[0]) {
+                    var reader = new FileReader();
+
+                    reader.onload = function(e) {
+                        $("#org_img").attr('src', e.target.result);
+                    };
+                    reader.readAsDataURL(input.files[0]);
+                    $("#alg_img").attr("src", "").hide();
                 }
-            });
-        }
+            }
+
+            function bindReadMultiFiles() {
+                $("#upload_files").change(function(e) {
+                    $.each(e.originalEvent.srcElement.files, function(i, file) {
+                        var img = document.createElement("img");
+                        var reader = new FileReader();
+                        reader.onloadend = function() {
+                            img.src = reader.result;
+                        }
+                        reader.readAsDataURL(file);
+                        var li = document.createElement("li");
+                        li.append(img);
+                        $("#img_list").append(li);
+                    });
+
+                    if ($("#img_list").length > 0) {
+                        $("#original-images").show();
+                        $("#after-aligned-images").hide();
+                    }
+                });
+            }
+
+            function validateUserName(input) {
+                $name = $(input).val();
+                $.ajax({
+                    url: "validateusername",
+                    type: "post",
+                    dataType: "json",
+                    data: {
+                        name: $name
+                    },
+                    success: function(redata) {
+                        if (!redata.res) {
+                            alert("there is not the username: " + $name);
+                        }
+                    }
+                });
+            }
+        });
     </script>
 </body>
 
