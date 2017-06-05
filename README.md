@@ -39,5 +39,21 @@
 > test和test_align用来存放测试图片,属于临时文件夹
 
 ## test
+> 分两个阶段, 训练和测试
+> 训练阶段用来添加一个人的照片,测试阶段用某个人的照片测试是否为某个人的照片
 > 在cmd或者powershell中输入 python app.py 启动该程序
-> 
+> 浏览器转到 http://localhost:5000/ 查看结果
+>* 主页![主页](intro-images/mainpage.png)
+>* 待上传的图片应该大于160 * 160
+>* #### 训练
+>* 添加一个待识别的人员 输入姓名并选择一定数量的图片
+>* 选择十张周杰伦的图片![十张周杰伦的图片](intro-images/train_upload_images.png)
+>* 上传之前![上传之前](intro-images/train_before_upload.png)
+>* 上传之后![上传之后](intro-images/train_after_upload.png), 上传的过程比较慢
+>* #### 测试
+>* 输入待测试人员的名称并选择一张图片
+>* 输入zhoujielun并上传他的一张图片(不同于之前的图片)![zhoujielun](intro-images/test_before_upload_is_zhoujielun.png)
+>* 结果1, ![zhoujielun](intro-images/test_after_upload_success.png), 识别的过程很慢
+>* 如果是本人的图片, 系统会返回检查后的图片并给出概率
+>* 结果2 ![zhoujielun](intro-images/test_before_upload_not_zhoujielun.png)
+>* 如果不是本人的图片,系统会显示上传的图片不是测试者的图片 ![notzhoujielun](intro-images/test_after_upload_fail.png)
