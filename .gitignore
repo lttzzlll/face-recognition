@@ -107,3 +107,6 @@ uploads/*.jpeg
 log.txt
 #backup dir
 backup
+
+# tmp
+tmp/*

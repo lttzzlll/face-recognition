@@ -24,28 +24,28 @@
             margin: 20px;
             padding: 4px;
         }
-        
+
         body div {
             margin: 2px;
             padding: 4px;
         }
-        
+
         body li {
             list-style: none;
         }
-        
+
         div#train {
             float: left;
             right: 49%;
             margin-left: 10%;
         }
-        
+
         div#test {
             float: right;
             left: 49%;
             margin-right: 10%;
         }
-        
+
         div.img-block {
             margin: 2px;
         }
@@ -123,7 +123,7 @@
 
 
     <script type='text/javascript'>
-        $(function() {
+        $(function () {
             init();
             imgShow();
             trainImgShow();
@@ -132,119 +132,119 @@
             bindReadMultiFiles();
             bindImgTroggle();
 
-            function init() {
-                // empty
-                initProb();
-            }
+        });
+        function init() {
+            // empty
+            initProb();
+        }
 
-            function initProb() {
-                if ($("#prob").text().trim() === ":") {
-                    $("#prob").hide();
-                } else {
-                    $("#prob").show();
-                }
+        function initProb() {
+            if ($("#prob").text().trim() === ":") {
+                $("#prob").hide();
+            } else {
+                $("#prob").show();
             }
+        }
 
-            function bindImgTroggle() {
-                if ($("#org_img").attr("src") !== "") {
-                    $("#alg_img").hide();
-                }
+        function bindImgTroggle() {
+            if ($("#org_img").attr("src") !== "") {
+                $("#alg_img").hide();
             }
+        }
 
-            function imgShow() {
-                var img = $("#img");
-                if (img && img.src !== "") {
-                    img.show();
-                }
+        function imgShow() {
+            var img = $("#img");
+            if (img && img.src !== "") {
+                img.show();
             }
+        }
 
-            function check_train() {
-                var name = $("#name");
-                if (name === null || name.length === 0) {
-                    alert("input name is none");
-                }
-                var files = $("#files[]");
-                if (files === null || files.length === 0) {
-                    alert("please select multiply images to upload");
-                }
-                return false;
+        function check_train() {
+            var name = $("#name");
+            if (name === null || name.length === 0) {
+                alert("input name is none");
             }
-
-            function trainImgShow() {
-                var img = $("#img_list");
-                if (img === null || img.length === 0) {
-                    img.hide();
-                }
+            var files = $("#files[]");
+            if (files === null || files.length === 0) {
+                alert("please select multiply images to upload");
             }
+            return false;
+        }
 
-            function imgAlignShow() {
-                var img = $("#img_align_list");
-                if (img === null || img.length === 0) {
-                    img.hide();
-                }
+        function trainImgShow() {
+            var img = $("#img_list");
+            if (img === null || img.length === 0) {
+                img.hide();
             }
+        }
 
-            function trainImageShow() {
-                var originalImages = $("#original-images").find("img");
-                var afterAlignedImages = $("#after-aligned-images").find("img");
-                if (originalImages === null || originalImages.length === 0) {
-                    $("#original-images").hide();
-                }
-                if (afterAlignedImages === null || afterAlignedImages.length === 0) {
+        function imgAlignShow() {
+            var img = $("#img_align_list");
+            if (img === null || img.length === 0) {
+                img.hide();
+            }
+        }
+
+        function trainImageShow() {
+            var originalImages = $("#original-images").find("img");
+            var afterAlignedImages = $("#after-aligned-images").find("img");
+            if (originalImages === null || originalImages.length === 0) {
+                $("#original-images").hide();
+            }
+            if (afterAlignedImages === null || afterAlignedImages.length === 0) {
+                $("#after-aligned-images").hide();
+            }
+        }
+
+        function readURL(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+
+                reader.onload = function (e) {
+                    $("#org_img").attr('src', e.target.result);
+                };
+                reader.readAsDataURL(input.files[0]);
+                $("#alg_img").attr("src", "").hide();
+            }
+        }
+
+        function bindReadMultiFiles() {
+            $("#upload_files").change(function (e) {
+                $.each(e.originalEvent.srcElement.files, function (i, file) {
+                    var img = document.createElement("img");
+                    var reader = new FileReader();
+                    reader.onloadend = function () {
+                        img.src = reader.result;
+                    }
+                    reader.readAsDataURL(file);
+                    var li = document.createElement("li");
+                    li.append(img);
+                    $("#img_list").append(li);
+                });
+
+                if ($("#img_list").length > 0) {
+                    $("#original-images").show();
                     $("#after-aligned-images").hide();
                 }
-            }
+            });
+        }
 
-            function readURL(input) {
-                if (input.files && input.files[0]) {
-                    var reader = new FileReader();
-
-                    reader.onload = function(e) {
-                        $("#org_img").attr('src', e.target.result);
-                    };
-                    reader.readAsDataURL(input.files[0]);
-                    $("#alg_img").attr("src", "").hide();
+        function validateUserName(input) {
+            $name = $(input).val();
+            $.ajax({
+                url: "validateusername",
+                type: "post",
+                dataType: "json",
+                data: {
+                    name: $name
+                },
+                success: function (redata) {
+                    if (!redata.res) {
+                        alert("there is not the username: " + $name);
+                    }
                 }
-            }
-
-            function bindReadMultiFiles() {
-                $("#upload_files").change(function(e) {
-                    $.each(e.originalEvent.srcElement.files, function(i, file) {
-                        var img = document.createElement("img");
-                        var reader = new FileReader();
-                        reader.onloadend = function() {
-                            img.src = reader.result;
-                        }
-                        reader.readAsDataURL(file);
-                        var li = document.createElement("li");
-                        li.append(img);
-                        $("#img_list").append(li);
-                    });
-
-                    if ($("#img_list").length > 0) {
-                        $("#original-images").show();
-                        $("#after-aligned-images").hide();
-                    }
-                });
-            }
-
-            function validateUserName(input) {
-                $name = $(input).val();
-                $.ajax({
-                    url: "validateusername",
-                    type: "post",
-                    dataType: "json",
-                    data: {
-                        name: $name
-                    },
-                    success: function(redata) {
-                        if (!redata.res) {
-                            alert("there is not the username: " + $name);
-                        }
-                    }
-                });
-            }
-        });
+            });
+        }
     </script>
 </body>
 
