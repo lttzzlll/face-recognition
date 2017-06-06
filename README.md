@@ -16,7 +16,7 @@
 
 > ### clone this reposity
 > linux & macos自带git 所以只需打开shell, 执行 git clone https://github.com/lttzzlll/face-recognition.git   
->> windows没有git, 可以选择首先安装git, 然后在 cmd 命令界面或者是powershell界面 执行 git clone https://github.com/lttzzlll/face-recognition.git  
+> windows没有git, 可以选择首先安装git, 然后在 cmd 命令界面或者是powershell界面 执行 git clone https://github.com/lttzzlll/face-recognition.git  
 > 或者是转到该[url](https://github.com/lttzzlll/face-recognition.git), 在界面上的 clone or download, 选择download  
 > git下载安装[url](https://git-for-windows.github.io/), 下载之后点击安装，一路按确认. 安装完成后在cmd界面或者是powershell界面输入 git查看是否安装成功
 
