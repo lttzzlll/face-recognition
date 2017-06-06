@@ -62,3 +62,9 @@
 >* 如果是本人的图片, 系统会返回检查后的图片并给出概率
 >* 结果2 ![zhoujielun](intro-images/test_before_upload_not_zhoujielun.png)  
 >* 如果不是本人的图片,系统会显示上传的图片不是测试者的图片 ![notzhoujielun](intro-images/test_after_upload_fail.png)  
+
+### promotion
+> 有很多可以改进的地方，让这个系统运行的更快
+> 1. 预加载模型，实例化一个持有该模型的变量，然后注入到程序中
+> 2. 不用每次都把 图片先存在磁盘上再读取，数据量少的情况下可以直接放入内存进行处理
+> 3. 离线去做一些优化
