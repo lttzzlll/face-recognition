@@ -41,8 +41,8 @@
 > 在face-recognition文件夹下新建文件夹uploads, 在uploads文件夹下新建四个文件夹train, train_align, test, test_align  
 > uploads用来存放用户上传的图片,其中train用来存放用户上传的原始图片,以用户名或者用户ID作为子文件夹
 > train_align用来存放剪裁后只剩脸部的图片  
-> test和test_align用来存放测试图片,属于临时文件夹  
-
+> test和test_align用来存放测试图片,属于临时文件夹    
+> 在face-recognition下新建文件夹 classifiers, 用来存放训练好的每个人的分类器
 ## test
 > 分两个阶段, 训练和测试  
 > 训练阶段用来添加一个人的照片,测试阶段用某个人的照片测试是否为某个人的照片  
