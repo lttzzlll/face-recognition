@@ -21,8 +21,13 @@
 > git下载安装[url](https://git-for-windows.github.io/), 下载之后点击安装，一路按确认. 安装完成后在cmd界面或者是powershell界面输入 git查看是否安装成功
 
 > * install for linux(ubantu)  
-> 
+>> 打开shell执行 git clone https://github.com/lttzzlll/face-recognition.git,  
+>> cd 进入 face-recognition路径, 然后执行 pip install -r requirement.txt
+
 > * install for macos  
+>> 打开shell执行 git clone https://github.com/lttzzlll/face-recognition.git,  
+>> cd 进入 face-recognition路径, 然后执行 pip install -r requirement.txt
+
 > * install for windows  
 >> 使用cmd或者powershell转到该文件夹下,然后执行 pip install -r requirement.txt,安装相关的依赖库
 > * install with docker  
