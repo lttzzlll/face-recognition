@@ -32,7 +32,7 @@
 
 ## project intro
 > 下载完仓库代码之后进入该文件夹,因为要读写文件,所以设置一下该文件夹的共享及权限设置为Everyone, 可以读写和执行  
-> 下载一个文件[url](https://drive.google.com/file/d/0B5MzpY9kBtDVZ2RpVDYwWmxoSUk/edit), 直接拿别人训练好的模型使用  
+> 下载一个文件[url](https://drive.google.com/file/d/0B5MzpY9kBtDVZ2RpVDYwWmxoSUk/edit), 放在face-recognition下面, 直接拿别人训练好的模型使用  
 > 在face-recognition文件夹下新建文件夹uploads, 在uploads文件夹下新建四个文件夹train, train_align, test, test_align  
 > uploads用来存放用户上传的图片,其中train用来存放用户上传的原始图片,以用户名或者用户ID作为子文件夹
 > train_align用来存放剪裁后只剩脸部的图片  
