@@ -16,7 +16,7 @@
 
 > ### clone this reposity
 > linux & macos自带git 所以只需打开shell, 执行 git clone https://github.com/lttzzlll/face-recognition.git   
-> windows没有git, 可以选择首先安装git, 然后在 cmd 命令界面或者是powershell界面 执行 git clone https://github.com/lttzzlll/face-recognition.git  
+>> windows没有git, 可以选择首先安装git, 然后在 cmd 命令界面或者是powershell界面 执行 git clone https://github.com/lttzzlll/face-recognition.git  
 > 或者是转到该[url](https://github.com/lttzzlll/face-recognition.git), 在界面上的 clone or download, 选择download  
 > git下载安装[url](https://git-for-windows.github.io/), 下载之后点击安装，一路按确认. 安装完成后在cmd界面或者是powershell界面输入 git查看是否安装成功
 
@@ -24,7 +24,7 @@
 > 
 > * install for macos  
 > * install for windows  
-> 使用cmd或者powershell转到该文件夹下,然后执行 pip install -r requirement.txt,安装相关的依赖库
+>> 使用cmd或者powershell转到该文件夹下,然后执行 pip install -r requirement.txt,安装相关的依赖库
 > * install with docker  
 > 跨越所有这些平台的方法目前就是使用docker虚拟化环境,前提是所使用的平台已经安装好了docker,剩下的就是给出一个镜像.
 > docker对linux最友好,macos和windows次之,可能需要安装virtualbox虚拟机来为要运行的程序专门虚拟化一个环境.
