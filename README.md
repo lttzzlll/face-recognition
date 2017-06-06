@@ -1,6 +1,6 @@
 # face-recognition
-> a simple face recognition system based on [facenet](https://github.com/davidsandberg/facenet)
-一个基于facenet的人脸识别系统(BS)
+> a simple face recognition system based on [facenet](https://github.com/davidsandberg/facenet)  
+> 一个基于facenet的人脸识别系统(BS)
 
 ## usage
 > 为一个要识别的用户上传若干张图片(理论上越多越好，一般在十张左右)，然后系统会在上传的图片中找到人脸的位置对图片进行剪裁，然后用这些剪裁后的图片作为训练集
@@ -11,8 +11,8 @@
 > ### prepare
 > 首先安装python环境.
 > linux or macos自带python环境, windows需要另外安装[url](https://www.python.org/downloads/windows/).  
-> 如果是linux or macos 推荐使用默认的pyhton2.7.x版本,对应的tensorflow版本也是python2.7.x版本,如果是windows环境,只能选择安装python3.5.x版本,
-> 因为tensorflow对windows只支持python3.5.x版本.
+> 如果是linux or macos 推荐使用默认的pyhton2.7.x版本,对应的tensorflow版本也是python2.7.x版本,  
+> 如果是windows环境,只能选择安装python3.5.x版本, 因为tensorflow对windows只支持python3.5.x版本.
 
 > ### clone this reposity
 > linux & macos自带git 所以只需打开shell, 执行 git clone https://github.com/lttzzlll/face-recognition.git   
